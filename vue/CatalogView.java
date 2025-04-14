@@ -7,7 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-//
+import java.util.ArrayList;
+
 /**
  * CatalogView - Interface graphique pour l'affichage du catalogue des articles
  * Cette classe permet au client de visualiser, rechercher et filtrer les articles disponibles
@@ -20,9 +21,13 @@ public class CatalogView extends JFrame {
     private JButton searchButton;
     private JButton refreshButton;
     private JButton addToCartButton;
+    private JButton viewCartButton;
     private JTable articlesTable;
     private DefaultTableModel tableModel;
     private JLabel statusLabel;
+
+    // Référence au panier
+    private CartView cartView;
 
     /**
      * Constructeur de la fenêtre du catalogue
@@ -34,6 +39,9 @@ public class CatalogView extends JFrame {
         setMinimumSize(new Dimension(700, 500));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        // Initialisation du panier
+        cartView = new CartView(this);
 
         // Initialisation des composants
         initComponents();
@@ -230,6 +238,16 @@ public class CatalogView extends JFrame {
         });
         buttonPanel.add(addToCartButton);
 
+        // Bouton pour voir le panier
+        viewCartButton = new JButton("Voir le panier");
+        viewCartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showCart();
+            }
+        });
+        buttonPanel.add(viewCartButton);
+
         // Activation du bouton d'ajout au panier lorsqu'une ligne est sélectionnée
         articlesTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -332,6 +350,13 @@ public class CatalogView extends JFrame {
     }
 
     /**
+     * Ouvre la vue du panier
+     */
+    private void showCart() {
+        cartView.setVisible(true);
+    }
+
+    /**
      * Ouvre une boîte de dialogue pour ajouter un article au panier
      * @param articleId ID de l'article
      * @param articleName Nom de l'article
@@ -418,15 +443,61 @@ public class CatalogView extends JFrame {
      * @param quantity Quantité à ajouter
      */
     private void addArticleToCart(int articleId, String articleName, double unitPrice, int quantity) {
-        // Simulation d'ajout au panier (à remplacer par le code réel)
-        double totalPrice = unitPrice * quantity;
+        // Récupérer les informations complètes de l'article
+        double bulkPrice = 0.0;
+        int bulkThreshold = 0;
+
+        // Recherche des informations détaillées de l'article
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            if ((int)tableModel.getValueAt(i, 0) == articleId) {
+                bulkPrice = (double)tableModel.getValueAt(i, 3);
+                bulkThreshold = (int)tableModel.getValueAt(i, 4);
+                break;
+            }
+        }
+
+        // Calculer le sous-total
+        double subtotal = calculateSubtotal(unitPrice, bulkPrice, quantity, bulkThreshold);
+
+        // Ajouter l'article au panier
+        cartView.addItemToCart(articleId, articleName, unitPrice, quantity, bulkPrice, bulkThreshold, subtotal);
+
+        // Afficher un message de confirmation
         String message = quantity + " × " + articleName + " ajouté(s) au panier\n";
-        message += "Total : " + String.format("%.2f €", totalPrice);
+        message += "Total : " + String.format("%.2f €", subtotal);
 
         JOptionPane.showMessageDialog(this, message, "Article ajouté", JOptionPane.INFORMATION_MESSAGE);
 
         // Mettre à jour le statut
         statusLabel.setText("Article ajouté au panier : " + articleName + " (Quantité : " + quantity + ")");
+    }
+
+    /**
+     * Calcule le sous-total pour un article en tenant compte des remises en gros
+     * @param unitPrice Prix unitaire
+     * @param bulkPrice Prix en gros
+     * @param quantity Quantité
+     * @param bulkThreshold Seuil pour le prix en gros
+     * @return le sous-total calculé
+     */
+    private double calculateSubtotal(double unitPrice, double bulkPrice, int quantity, int bulkThreshold) {
+        double subtotal = 0.0;
+
+        // Appliquer le prix en gros pour autant de groupes complets que possible
+        int bulkGroups = quantity / bulkThreshold;
+        int remainingItems = quantity % bulkThreshold;
+
+        // Prix des groupes en gros
+        if (bulkGroups > 0 && bulkPrice > 0 && bulkThreshold > 0) {
+            subtotal += bulkGroups * bulkPrice;
+        } else {
+            bulkGroups = 0;
+        }
+
+        // Prix des articles restants au prix unitaire
+        subtotal += (quantity - (bulkGroups * bulkThreshold)) * unitPrice;
+
+        return subtotal;
     }
 
     /**
