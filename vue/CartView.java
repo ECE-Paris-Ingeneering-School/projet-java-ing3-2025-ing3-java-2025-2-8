@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CartView - Interface graphique pour l'affichage du panier d'achat
@@ -446,40 +448,23 @@ public class CartView extends JFrame {
             return;
         }
 
-        // Pour le moment, simuler le passage au paiement
-        String message = "Total de votre commande : " + String.format("%.2f €", cartTotal) + "\n\n";
-        message += "Articles dans votre panier :\n";
+        // Créer la liste des articles pour la vue de paiement
+        List<PaymentView.OrderItem> orderItems = new ArrayList<>();
 
         for (int i = 0; i < tableModel.getRowCount(); i++) {
+            int id = (int) tableModel.getValueAt(i, 0);
             String name = (String) tableModel.getValueAt(i, 1);
+            double unitPrice = (double) tableModel.getValueAt(i, 2);
             int quantity = (int) tableModel.getValueAt(i, 3);
             double subtotal = (double) tableModel.getValueAt(i, 6);
 
-            message += "- " + quantity + " × " + name + " : " + String.format("%.2f €", subtotal) + "\n";
+            orderItems.add(new PaymentView.OrderItem(id, name, unitPrice, quantity, subtotal));
         }
 
-        message += "\nProcéder au paiement ?";
-
-        int option = JOptionPane.showConfirmDialog(
-                this,
-                message,
-                "Récapitulatif de la commande",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
-
-        if (option == JOptionPane.YES_OPTION) {
-            // TODO: Ouvrir la vue de paiement
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Redirection vers la page de paiement...",
-                    "Paiement",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            // Ici, vous pourriez faire appel au contrôleur pour ouvrir la vue de paiement
-            // et transmettre les informations du panier
-        }
+        // Ouvrir la vue de paiement en lui passant les données nécessaires
+        PaymentView paymentView = new PaymentView(this, orderItems, cartTotal);
+        this.setVisible(false);
+        paymentView.setVisible(true);
     }
 
     /**
@@ -489,6 +474,28 @@ public class CartView extends JFrame {
         // Cacher la fenêtre du panier et revenir au catalogue
         this.setVisible(false);
         catalogView.setVisible(true);
+    }
+
+    /**
+     * Vide complètement le panier
+     */
+    public void clearCart() {
+        // Vider le tableau
+        tableModel.setRowCount(0);
+
+        // Mettre à jour le total
+        updateTotal();
+
+        // Mettre à jour le statut
+        statusLabel.setText("Le panier a été vidé");
+    }
+
+    /**
+     * Retourne la référence au catalogue
+     * @return la vue du catalogue
+     */
+    public CatalogView getCatalogView() {
+        return catalogView;
     }
 
     /**
