@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * CatalogView - Affichage du catalogue connecté à la BDD
+ * CatalogView: on Affiche le catalogue connecte a la BDD
+ * la classse represente l'interface principale du catalogue
+ * Permet à l'utilisateur de rechercher filtrer ajouter au panier et pouvoir payer pour ahceter
  */
 public class CatalogView extends JFrame {
 
@@ -47,32 +49,39 @@ public class CatalogView extends JFrame {
         welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         add(welcomeLabel, BorderLayout.NORTH);
 
-        // 🔍 Panel de recherche
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchField = new JTextField(20);
-        brandComboBox = new JComboBox<>();
-        brandComboBox.addItem("Toutes les marques");
+        // 🔍 TOP PANEL avec recherche
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
-
+        // Première ligne
+        JPanel ligne1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         JButton commandesBtn = new JButton("Mes commandes");
         commandesBtn.addActionListener(e -> new CommandesView().setVisible(true));
+        ligne1.add(commandesBtn);
 
-
-        topPanel.add(commandesBtn);
-
+        // Deuxième ligne
+        JPanel ligne2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        searchField = new JTextField(15);
+        brandComboBox = new JComboBox<>();
+        brandComboBox.addItem("Toutes les marques");
+        brandComboBox.addActionListener(e -> searchArticles()); // 🔁 filtre direct
 
         JButton searchButton = new JButton("Rechercher");
-        JButton refreshButton = new JButton("Rafraîchir");
-
         searchButton.addActionListener(e -> searchArticles());
+
+        JButton refreshButton = new JButton("Rafraîchir");
         refreshButton.addActionListener(e -> loadArticles());
 
-        topPanel.add(new JLabel("Recherche :"));
-        topPanel.add(searchField);
-        topPanel.add(new JLabel("Marque :"));
-        topPanel.add(brandComboBox);
-        topPanel.add(searchButton);
-        topPanel.add(refreshButton);
+        ligne2.add(new JLabel("Recherche :"));
+        ligne2.add(searchField);
+        ligne2.add(new JLabel("Marque :"));
+        ligne2.add(brandComboBox);
+        ligne2.add(searchButton);
+        ligne2.add(refreshButton);
+
+        topPanel.add(ligne1);
+        topPanel.add(ligne2);
+
         add(topPanel, BorderLayout.PAGE_START);
 
         // 🧾 Tableau
@@ -92,15 +101,13 @@ public class CatalogView extends JFrame {
         JScrollPane scrollPane = new JScrollPane(articlesTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // ✅ Panel de boutons sous la table
+        // ✅ Panel bas
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
-        // Label bas
         statusLabel = new JLabel(" ", JLabel.CENTER);
         statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         bottomPanel.add(statusLabel, BorderLayout.NORTH);
 
-        // Boutons
         JButton addToCartButton = new JButton("Ajouter au panier");
         JButton viewCartButton = new JButton("Voir le panier");
         JButton checkoutButton = new JButton("Payer maintenant");
@@ -117,6 +124,7 @@ public class CatalogView extends JFrame {
 
         add(bottomPanel, BorderLayout.SOUTH);
     }
+
 
     /**
      * Charge tous les produits de la base via ProduitDAO
