@@ -1,16 +1,18 @@
-package view;
+package vue;
+
+import dao.UtilisateurDAO;
+import modele.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
- * LoginView - Interface graphique pour la connexion des utilisateurs
+ * LoginView - Interface graphique pour la connexion et l'inscription
  */
 public class LoginView extends JFrame {
 
-    // Composants de l'interface
     private JTextField emailField;
     private JPasswordField passwordField;
     private JComboBox<String> userTypeComboBox;
@@ -18,103 +20,70 @@ public class LoginView extends JFrame {
     private JButton registerButton;
     private JLabel statusLabel;
 
-    /**
-     * Constructeur de la fenêtre
-     */
     public LoginView() {
-        // Configuration de la fenêtre principale
         setTitle("Connexion - Application Shopping");
         setSize(400, 350);
         setMinimumSize(new Dimension(350, 300));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-        // Initialisation des composants
         initComponents();
     }
 
-    /**
-     * Initialise les composants de l'interface
-     */
     private void initComponents() {
-        // Panneau principal avec espacement
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Panneau de titre centré
         JPanel titlePanel = new JPanel();
         JLabel titleLabel = new JLabel("SHOPPING APP");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titlePanel.add(titleLabel);
 
-        // Panneau de formulaire avec GridBagLayout pour un meilleur contrôle
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
 
-        // Type d'utilisateur
         JLabel userTypeLabel = new JLabel("Type d'utilisateur:");
         String[] userTypes = {"Client", "Administrateur"};
         userTypeComboBox = new JComboBox<>(userTypes);
 
-        // Email
         JLabel emailLabel = new JLabel("Email:");
         emailField = new JTextField(15);
 
-        // Mot de passe
         JLabel passwordLabel = new JLabel("Mot de passe:");
         passwordField = new JPasswordField(15);
 
-        // Placement des composants avec GridBagLayout
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(userTypeLabel, gbc);
-
         gbc.gridx = 1;
-        gbc.weightx = 1.0;
         formPanel.add(userTypeComboBox, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0.0;
+        gbc.gridx = 0; gbc.gridy = 1;
         formPanel.add(emailLabel, gbc);
-
         gbc.gridx = 1;
-        gbc.weightx = 1.0;
         formPanel.add(emailField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0.0;
+        gbc.gridx = 0; gbc.gridy = 2;
         formPanel.add(passwordLabel, gbc);
-
         gbc.gridx = 1;
-        gbc.weightx = 1.0;
         formPanel.add(passwordField, gbc);
 
-        // Panneau de boutons
         JPanel buttonPanel = new JPanel();
         loginButton = new JButton("Se connecter");
         registerButton = new JButton("Créer un compte");
-
         buttonPanel.add(loginButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espacement entre les boutons
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(registerButton);
 
-        // Label de statut
         statusLabel = new JLabel(" ", JLabel.CENTER);
         statusLabel.setForeground(Color.RED);
 
-        // Configuration de l'alignement des panneaux
         titlePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Ajout d'espacement entre les panneaux
         mainPanel.add(titlePanel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(formPanel);
@@ -123,63 +92,11 @@ public class LoginView extends JFrame {
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(statusLabel);
 
-        // Ajout du panneau principal à la fenêtre
         add(mainPanel);
-
-        // Configuration des actions des boutons
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleLogin();
-            }
-        });
-
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openRegistrationDialog();
-            }
-        });
-
-        // Utiliser la touche Entrée pour se connecter
         getRootPane().setDefaultButton(loginButton);
-    }
 
-    /**
-     * Gère l'action de connexion
-     */
-    private void handleLogin() {
-        String email = emailField.getText();
-        String password = new String(passwordField.getPassword());
-        String userType = (String) userTypeComboBox.getSelectedItem();
-
-        if (email.isEmpty() || password.isEmpty()) {
-            statusLabel.setText("Veuillez remplir tous les champs");
-            return;
-        }
-
-        // Simulation d'authentification (à remplacer par le code réel avec le contrôleur)
-        if ("Administrateur".equals(userType)) {
-            if (email.equals("admin@shop.com") && password.equals("admin")) {
-                JOptionPane.showMessageDialog(this,
-                        "Connexion administrateur réussie!",
-                        "Bienvenue",
-                        JOptionPane.INFORMATION_MESSAGE);
-                // TODO: Ouvrir la vue admin
-            } else {
-                statusLabel.setText("Identifiants administrateur incorrects");
-            }
-        } else {
-            if (email.contains("@") && password.length() >= 4) {
-                JOptionPane.showMessageDialog(this,
-                        "Connexion client réussie!",
-                        "Bienvenue",
-                        JOptionPane.INFORMATION_MESSAGE);
-                // TODO: Ouvrir la vue client
-            } else {
-                statusLabel.setText("Email ou mot de passe incorrect");
-            }
-        }
+        // Action inscription
+        registerButton.addActionListener(e -> openRegistrationDialog());
     }
 
     /**
@@ -198,73 +115,58 @@ public class LoginView extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // ===== FORMULAIRE =====
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
 
+        // Nom
         JLabel nameLabel = new JLabel("Nom complet:");
         JTextField nameField = new JTextField(15);
-
-        JLabel emailLabel = new JLabel("Email:");
-        JTextField emailField = new JTextField(15);
-
-        JLabel passwordLabel = new JLabel("Mot de passe:");
-        JPasswordField passwordField = new JPasswordField(15);
-
-        JLabel confirmPasswordLabel = new JLabel("Confirmer mot de passe:");
-        JPasswordField confirmPasswordField = new JPasswordField(15);
-
-        // Placement des champs
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.0;
         formPanel.add(nameLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(nameField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0.0;
+        // Email
+        JLabel emailLabel = new JLabel("Email:");
+        JTextField emailField = new JTextField(15);
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.0;
         formPanel.add(emailLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(emailField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0.0;
+        // Mot de passe
+        JLabel passwordLabel = new JLabel("Mot de passe:");
+        JPasswordField passwordField = new JPasswordField(15);
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.0;
         formPanel.add(passwordLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(passwordField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.weightx = 0.0;
+        // Confirmation mot de passe
+        JLabel confirmPasswordLabel = new JLabel("Confirmer mot de passe:");
+        JPasswordField confirmPasswordField = new JPasswordField(15);
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0.0;
         formPanel.add(confirmPasswordLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(confirmPasswordField, gbc);
 
-        // Boutons
+        // ===== BOUTONS =====
         JPanel buttonPanel = new JPanel();
         JButton registerButton = new JButton("S'inscrire");
         JButton cancelButton = new JButton("Annuler");
         buttonPanel.add(registerButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espacement
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(cancelButton);
 
-        // Label de statut pour l'inscription
+        // ===== STATUS =====
         JLabel registerStatusLabel = new JLabel(" ", JLabel.CENTER);
         registerStatusLabel.setForeground(Color.RED);
         registerStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Ajout des composants au panneau principal
+        // ===== AJOUT AUX PANNEAUX =====
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         mainPanel.add(formPanel);
@@ -273,77 +175,96 @@ public class LoginView extends JFrame {
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(registerStatusLabel);
 
-        // Actions des boutons
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String email = emailField.getText();
-                String password = new String(passwordField.getPassword());
-                String confirmPassword = new String(confirmPasswordField.getPassword());
+        registerDialog.add(mainPanel);
+        registerDialog.setResizable(false);
 
-                // Validation des champs
-                if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                    registerStatusLabel.setText("Veuillez remplir tous les champs");
-                    return;
-                }
+        // ===== ACTIONS =====
+        registerButton.addActionListener(e -> {
+            String name = nameField.getText().trim();
+            String email = emailField.getText().trim();
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
 
-                if (!email.contains("@")) {
-                    registerStatusLabel.setText("Email invalide");
-                    return;
-                }
+            // Validation
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                registerStatusLabel.setText("Veuillez remplir tous les champs");
+                return;
+            }
 
-                if (!password.equals(confirmPassword)) {
-                    registerStatusLabel.setText("Les mots de passe ne correspondent pas");
-                    return;
-                }
+            if (!email.contains("@")) {
+                registerStatusLabel.setText("Email invalide");
+                return;
+            }
 
-                if (password.length() < 4) {
-                    registerStatusLabel.setText("Mot de passe trop court (min. 4 caractères)");
-                    return;
-                }
+            if (!password.equals(confirmPassword)) {
+                registerStatusLabel.setText("Les mots de passe ne correspondent pas");
+                return;
+            }
 
-                // TODO: Appeler le contrôleur pour enregistrer l'utilisateur
+            if (password.length() < 4) {
+                registerStatusLabel.setText("Mot de passe trop court (min. 4 caractères)");
+                return;
+            }
+
+            // Création de l'utilisateur
+            Utilisateur newUser = new Utilisateur(0, name, email, password, "client");
+            UtilisateurDAO dao = new UtilisateurDAO();
+            boolean success = dao.ajouterUtilisateur(newUser);
+
+            if (success) {
                 JOptionPane.showMessageDialog(registerDialog,
-                        "Inscription réussie! Vous pouvez maintenant vous connecter.",
-                        "Inscription terminée",
-                        JOptionPane.INFORMATION_MESSAGE);
+                        "Inscription réussie ! Vous pouvez maintenant vous connecter.",
+                        "Succès", JOptionPane.INFORMATION_MESSAGE);
                 registerDialog.dispose();
 
-                // Pré-remplir l'email pour la connexion
+                // Pré-remplir les champs de connexion
                 LoginView.this.emailField.setText(email);
                 LoginView.this.passwordField.setText("");
                 LoginView.this.userTypeComboBox.setSelectedItem("Client");
+
+            } else {
+                registerStatusLabel.setText("Erreur : email déjà utilisé ou problème de base");
             }
         });
 
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registerDialog.dispose();
-            }
-        });
+        cancelButton.addActionListener(e -> registerDialog.dispose());
 
-        registerDialog.add(mainPanel);
-        registerDialog.setResizable(false);
         registerDialog.setVisible(true);
     }
 
-    /**
-     * Méthode principale pour tester la vue
-     */
+
+    // ==== Méthodes utilisées par le contrôleur ====
+
+    public void setLoginAction(ActionListener action) {
+        loginButton.addActionListener(action);
+    }
+
+    public String getEmail() {
+        return emailField.getText();
+    }
+
+    public String getPassword() {
+        return new String(passwordField.getPassword());
+    }
+
+    public String getUserType() {
+        return (String) userTypeComboBox.getSelectedItem();
+    }
+
+    public void showError(String message) {
+        statusLabel.setText(message);
+    }
+
+    // ==== Lancement de l'application ====
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                LoginView loginView = new LoginView();
-                loginView.setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
+            catch (Exception e) { e.printStackTrace(); }
+
+            LoginView loginView = new LoginView();
+            loginView.setVisible(true);
+            new controleur.LoginControleur(loginView); // Lien MVC
         });
     }
 }

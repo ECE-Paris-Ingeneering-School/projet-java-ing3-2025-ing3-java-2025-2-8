@@ -23,6 +23,10 @@ public class Utilisateur {
     public String getEmail() { return email; }
     public String getMotDePasse() { return motDePasse; }
     public String getType() { return type; }
+    public int getId() {
+        return idUtilisateur;
+    }
+
 
     // Setters
     public void setIdUtilisateur(int id) { this.idUtilisateur = id; }

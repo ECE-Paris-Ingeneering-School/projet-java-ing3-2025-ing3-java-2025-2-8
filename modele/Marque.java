@@ -1,4 +1,4 @@
-////
+///////
 package modele;
 
 public class Marque {
@@ -20,6 +20,9 @@ public class Marque {
 
     public String getNom() {
         return nom;
+    }
+    public int getId() {
+        return idMarque;
     }
 
     public void setNom(String nom) {
