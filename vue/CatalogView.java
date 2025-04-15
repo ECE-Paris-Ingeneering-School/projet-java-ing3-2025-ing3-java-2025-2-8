@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * CatalogView - Affichage du catalogue connecté à la BDD
+ * CatalogView: on Affiche le catalogue connecte a la BDD
+ * la classse represente l'interface principale du catalogue
+ * Permet à l'utilisateur de rechercher filtrer ajouter au panier et pouvoir payer pour ahceter
  */
 public class CatalogView extends JFrame {
 
