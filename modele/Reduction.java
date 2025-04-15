@@ -1,4 +1,4 @@
-////
+////////// Modele Reduction
 package modele;
 
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.Date;
 public class Reduction {
     private int idReduction;
     private String description;
-    private String typeReduction; // "pourcentage" ou "fixe"
+    private String typeReduction; // pourcentage
     private double valeur;
     private Date dateDebut;
     private Date dateFin;
@@ -21,8 +21,6 @@ public class Reduction {
         this.dateFin = dateFin;
         this.idProduit = idProduit;
     }
-
-    // Getters & Setters...
 
     public int getIdReduction() { return idReduction; }
     public String getDescription() { return description; }

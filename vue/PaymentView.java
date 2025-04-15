@@ -1,5 +1,5 @@
 package vue;
-
+//importation des librairies pour le View
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -29,6 +29,8 @@ public class PaymentView extends JFrame {
         populateSummary();
     }
 
+    //initialization du Frame
+
     private void initializeFrame() {
         setTitle("Paiement - Confirmation de commande");
         setSize(600, 500);
@@ -37,6 +39,8 @@ public class PaymentView extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
     }
+
+    //initialization du panel
 
     private void initializeComponents() {
         JPanel headerPanel = createHeaderPanel();
@@ -91,6 +95,8 @@ public class PaymentView extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
+        //les buttons pour payer
+
         payButton = new JButton("Payer maintenant");
         payButton.setPreferredSize(new Dimension(150, 40));
         payButton.addActionListener(e -> processPayment());
@@ -125,7 +131,7 @@ public class PaymentView extends JFrame {
 
         summaryTextArea.setText(summary.toString());
     }
-
+    //payment processeur
     private void processPayment() {
         if (orderItems.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -134,10 +140,11 @@ public class PaymentView extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        //curseur
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         payButton.setEnabled(false);
         cancelButton.setEnabled(false);
+        //timer
 
         Timer timer = new Timer(1500, new AbstractAction() {
             @Override
@@ -155,7 +162,7 @@ public class PaymentView extends JFrame {
         timer.setRepeats(false);
         timer.start();
     }
-
+    //annulation du paiement
     private void cancelPayment() {
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Annuler le paiement ?",
@@ -182,7 +189,7 @@ public class PaymentView extends JFrame {
             }
         }
     }
-
+    //order item
     public static class OrderItem {
         private int id;
         private String name;
