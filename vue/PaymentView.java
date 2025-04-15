@@ -91,6 +91,8 @@ public class PaymentView extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
+        //les pay button
+
         payButton = new JButton("Payer maintenant");
         payButton.setPreferredSize(new Dimension(150, 40));
         payButton.addActionListener(e -> processPayment());
@@ -125,7 +127,7 @@ public class PaymentView extends JFrame {
 
         summaryTextArea.setText(summary.toString());
     }
-
+    //payment processeur
     private void processPayment() {
         if (orderItems.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -134,10 +136,11 @@ public class PaymentView extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        //curseur
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         payButton.setEnabled(false);
         cancelButton.setEnabled(false);
+        //timer
 
         Timer timer = new Timer(1500, new AbstractAction() {
             @Override
@@ -182,7 +185,7 @@ public class PaymentView extends JFrame {
             }
         }
     }
-
+    //order item
     public static class OrderItem {
         private int id;
         private String name;
