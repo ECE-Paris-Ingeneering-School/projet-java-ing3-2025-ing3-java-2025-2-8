@@ -13,14 +13,23 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class CartView extends JFrame {
 
+/**
+ * CartView: IU du panier.
+ * Permet d’ajouter visualiser, modifier et valider les produits dans le panier
+ */
+
+public class CartView extends JFrame {
+    // Composants UI
     private JTable table;
     private DefaultTableModel model;
     private JLabel totalLabel;
     private CatalogView catalogView;
     private JButton checkoutButton;
 
+    /**
+     * Constructeur du panier lie a une vue catalogue.
+     */
     public CartView(CatalogView catalogView) {
         this.catalogView = catalogView;
 
@@ -29,11 +38,13 @@ public class CartView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        initComponents();
+        initComponents(); // Initialise l’interface
     }
 
     private void initComponents() {
         setLayout(new BorderLayout());
+
+        // Définition des colonnes du tableau
 
         String[] columns = {"ID", "Nom", "Prix unit.", "Quantité", "Prix en lot", "Seuil", "Sous-total"};
         model = new DefaultTableModel(columns, 0) {
