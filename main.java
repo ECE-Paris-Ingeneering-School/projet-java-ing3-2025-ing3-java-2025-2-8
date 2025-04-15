@@ -1,5 +1,6 @@
 
-// MAIN
+/// MAIN
+// Imports
 import controleur.LoginControleur;
 import vue.LoginView;
 
