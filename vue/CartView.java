@@ -1,15 +1,18 @@
 package vue;
 
+import dao.CommandeDAO;
+import dao.LigneCommandeDAO;
+import modele.Commande;
+import modele.LigneCommande;
+import modele.Utilisateur;
+import controleur.LoginControleur;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Vector;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
-/**
- * CartView - Vue du panier d’achat
- */
 public class CartView extends JFrame {
 
     private JTable table;
@@ -68,7 +71,7 @@ public class CartView extends JFrame {
             catalogView.setVisible(true);
         });
 
-        checkoutButton.addActionListener(e -> proceedToCheckout());
+        checkoutButton.addActionListener(e -> passerCommande());
 
         JPanel btnPanel = new JPanel();
         btnPanel.add(clearBtn);
@@ -125,42 +128,75 @@ public class CartView extends JFrame {
         updateTotal();
     }
 
-    public JTable getTable() {
-        return table;
+    public void passerCommande() {
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Votre panier est vide.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Utilisateur utilisateur = LoginControleur.utilisateurConnecte;
+        if (utilisateur == null) {
+            JOptionPane.showMessageDialog(this, "Utilisateur non connecté.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double total = 0;
+        List<LigneCommande> lignes = new ArrayList<>();
+        StringBuilder recap = new StringBuilder("RÉCAPITULATIF DE COMMANDE :\n\n");
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int idProduit = (int) model.getValueAt(i, 0);
+            String nom = (String) model.getValueAt(i, 1);
+            double prixUnitaire = (double) model.getValueAt(i, 2);
+            int quantite = (int) model.getValueAt(i, 3);
+            double sousTotal = (double) model.getValueAt(i, 6);
+
+            total += sousTotal;
+
+            lignes.add(new LigneCommande(0, 0, idProduit, quantite, prixUnitaire, sousTotal));
+
+            recap.append("- ").append(nom)
+                    .append(" x ").append(quantite)
+                    .append(" → ").append(String.format("%.2f €", sousTotal))
+                    .append("\n");
+        }
+
+        recap.append("\nTOTAL : ").append(String.format("%.2f €", total));
+        recap.append("\n\nVoulez-vous confirmer cette commande ?");
+
+        int confirmation = JOptionPane.showConfirmDialog(this, recap.toString(), "Confirmer la commande",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmation != JOptionPane.YES_OPTION) return;
+
+        Commande commande = new Commande(0, new Date(), utilisateur.getId(), total);
+        int idCommande = new CommandeDAO().ajouterCommande(commande);
+
+        if (idCommande != -1) {
+            boolean success = true;
+            for (LigneCommande ligne : lignes) {
+                ligne.setIdCommande(idCommande);
+                if (!new LigneCommandeDAO().ajouterLigneCommande(ligne)) {
+                    success = false;
+                    break;
+                }
+            }
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Commande enregistrée avec succès !");
+                clearCart();
+                catalogView.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des lignes de commande.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la création de la commande.");
+        }
     }
 
     public CatalogView getCatalogView() {
         return catalogView;
     }
 
-    public void proceedToCheckout() {
-        if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this,
-                    "Votre panier est vide. Veuillez ajouter des articles avant de passer au paiement.",
-                    "Panier vide",
-                    JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
-        List<PaymentView.OrderItem> orderItems = new ArrayList<>();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            int id = (int) model.getValueAt(i, 0);
-            String nom = (String) model.getValueAt(i, 1);
-            double prixUnitaire = (double) model.getValueAt(i, 2);
-            int quantite = (int) model.getValueAt(i, 3);
-            double sousTotal = (double) model.getValueAt(i, 6);
-
-            PaymentView.OrderItem item = new PaymentView.OrderItem(id, nom, prixUnitaire, quantite, sousTotal);
-            orderItems.add(item);
-        }
-
-        double total = 0.0;
-        for (PaymentView.OrderItem item : orderItems) {
-            total += item.getSubtotal();
-        }
-
-        PaymentView paymentView = new PaymentView(this, orderItems, total);
-        this.setVisible(false);
-        paymentView.setVisible(true);
-    }
 }

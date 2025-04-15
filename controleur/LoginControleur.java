@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class LoginControleur implements ActionListener {
 
     private LoginView view;
-
+    public static Utilisateur utilisateurConnecte;
 
     public LoginControleur(LoginView view) {
         this.view = view;
@@ -38,6 +38,9 @@ public class LoginControleur implements ActionListener {
         Utilisateur utilisateur = dao.authenticate(email, password);
 
         if (utilisateur != null && utilisateur.getType().equalsIgnoreCase(userType)) {
+            // ✅ ENREGISTRER L’UTILISATEUR CONNECTÉ
+            LoginControleur.utilisateurConnecte = utilisateur;
+
             JOptionPane.showMessageDialog(view,
                     "Connexion réussie ! Bienvenue " + utilisateur.getNom(),
                     "Bienvenue",
@@ -48,10 +51,8 @@ public class LoginControleur implements ActionListener {
             // Redirection selon le type d'utilisateur
             if (userType.equals("client")) {
                 new vue.CatalogView(utilisateur).setVisible(true);
-            }
-            else {
+            } else {
                 new AdminFrame(utilisateur).setVisible(true);
-
             }
 
         } else {

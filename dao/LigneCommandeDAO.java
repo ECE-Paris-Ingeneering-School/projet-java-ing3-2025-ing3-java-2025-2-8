@@ -4,6 +4,8 @@ import modele.LigneCommande;
 import util.Databaseconnection;
 
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class LigneCommandeDAO {
 
@@ -26,4 +28,33 @@ public class LigneCommandeDAO {
             return false;
         }
     }
+    public List<LigneCommande> getLignesParCommande(int idCommande) {
+        List<LigneCommande> lignes = new ArrayList<>();
+        String sql = "SELECT * FROM LigneCommande WHERE idCommande = ?";
+
+        try (Connection conn = Databaseconnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCommande);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                LigneCommande l = new LigneCommande(
+                        rs.getInt("idLigne"),
+                        rs.getInt("idCommande"),
+                        rs.getInt("idProduit"),
+                        rs.getInt("quantite"),
+                        rs.getDouble("prixUnitaire"),
+                        rs.getDouble("sousTotal")
+                );
+                lignes.add(l);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Erreur chargement lignes commande : " + e.getMessage());
+        }
+
+        return lignes;
+    }
+
 }
