@@ -1,4 +1,4 @@
-///////// Modele Reduction
+////////// Modele Reduction
 package modele;
 
 import java.util.Date;
