@@ -1,4 +1,4 @@
-////
+///////
 package modele;
 
 import java.util.Date;
@@ -22,7 +22,6 @@ public class Reduction {
         this.idProduit = idProduit;
     }
 
-    // Getters & Setters...
 
     public int getIdReduction() { return idReduction; }
     public String getDescription() { return description; }

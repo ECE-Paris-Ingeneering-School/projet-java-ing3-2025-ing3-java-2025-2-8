@@ -53,6 +53,14 @@ public class CatalogView extends JFrame {
         brandComboBox = new JComboBox<>();
         brandComboBox.addItem("Toutes les marques");
 
+
+        JButton commandesBtn = new JButton("Mes commandes");
+        commandesBtn.addActionListener(e -> new CommandesView().setVisible(true));
+
+
+        topPanel.add(commandesBtn);
+
+
         JButton searchButton = new JButton("Rechercher");
         JButton refreshButton = new JButton("Rafraîchir");
 
@@ -99,7 +107,7 @@ public class CatalogView extends JFrame {
 
         addToCartButton.addActionListener(e -> ajouterProduitSelectionneAuPanier());
         viewCartButton.addActionListener(e -> cartView.setVisible(true));
-        checkoutButton.addActionListener(e -> cartView.proceedToCheckout());
+        checkoutButton.addActionListener(e -> cartView.passerCommande());
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addToCartButton);
