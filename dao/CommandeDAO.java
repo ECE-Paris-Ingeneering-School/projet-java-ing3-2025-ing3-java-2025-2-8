@@ -60,5 +60,25 @@ public class CommandeDAO {
 
         return commandes;
     }
+    public int getNombreCommandes() {
+        String sql = "SELECT COUNT(*) FROM Commande";
+        try (Connection conn = Databaseconnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return 0;
+    }
+
+    public double getTotalVentes() {
+        String sql = "SELECT SUM(total) FROM Commande";
+        try (Connection conn = Databaseconnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getDouble(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return 0.0;
+    }
+
 
 }

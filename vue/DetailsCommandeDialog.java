@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 public class DetailsCommandeDialog extends JDialog {
+    private JTable table;
 
     public DetailsCommandeDialog(JFrame parent, int idCommande) {
         super(parent, "Détails de la commande n°" + idCommande, true);
@@ -16,26 +17,32 @@ public class DetailsCommandeDialog extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        String[] columns = {"Produit ID", "Quantité", "Prix Unitaire (€)", "Sous-total (€)"};
-        DefaultTableModel model = new DefaultTableModel(columns, 0) {
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+        // Création du modèle avec colonnes
+        String[] colonnes = {"Nom du produit", "Quantité", "Prix unitaire", "Sous-total"};
+        DefaultTableModel model = new DefaultTableModel(colonnes, 0);
 
-        JTable table = new JTable(model);
+        // Création de la table
+        table = new JTable(model);
+        table.setRowHeight(25);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Récupérer les lignes de la commande
+        // Récupération des lignes
         List<LigneCommande> lignes = new LigneCommandeDAO().getLignesParCommande(idCommande);
         for (LigneCommande l : lignes) {
             model.addRow(new Object[]{
-                    l.getIdProduit(),
+                    l.getNomProduit(),  // doit exister dans LigneCommande.java
                     l.getQuantite(),
                     l.getPrixUnitaire(),
                     l.getSousTotal()
             });
         }
+
+        // Bouton fermer
+        JButton fermerBtn = new JButton("Fermer");
+        fermerBtn.addActionListener(e -> dispose());
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(fermerBtn);
+        add(btnPanel, BorderLayout.SOUTH);
     }
 }

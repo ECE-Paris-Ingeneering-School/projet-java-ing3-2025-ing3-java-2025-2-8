@@ -51,6 +51,9 @@ public class AdminFrame extends JFrame {
         buttons.add(delBtn);
 
         add(buttons, BorderLayout.SOUTH);
+        StatsPanel statsPanel = new StatsPanel();
+        add(statsPanel, BorderLayout.EAST);
+
     }
 
     private void ouvrirFormulaireAjout() {
