@@ -21,6 +21,9 @@ public class Marque {
     public String getNom() {
         return nom;
     }
+    public int getId() {
+        return idMarque;
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
