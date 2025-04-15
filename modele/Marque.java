@@ -1,4 +1,4 @@
-///////
+/////// Classe Marque
 package modele;
 
 public class Marque {
