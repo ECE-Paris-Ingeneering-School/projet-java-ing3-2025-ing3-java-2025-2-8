@@ -38,7 +38,7 @@ public class LoginControleur implements ActionListener {
         Utilisateur utilisateur = dao.authenticate(email, password);
 
         if (utilisateur != null && utilisateur.getType().equalsIgnoreCase(userType)) {
-            // ✅ ENREGISTRER L’UTILISATEUR CONNECTÉ
+            // Enregistrer l'utilisateur
             LoginControleur.utilisateurConnecte = utilisateur;
 
             JOptionPane.showMessageDialog(view,
