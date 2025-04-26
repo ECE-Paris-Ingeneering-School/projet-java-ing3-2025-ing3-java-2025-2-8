@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Databaseconnection {
-    // URL de connexion (adaptée à votre configuration, ici sur localhost et port 3306)
+    // URL de connexion
     private static final String URL = "jdbc:mysql://localhost:8889/ShoppingDB";
     private static final String USER = "root";        // Remplacez par votre utilisateur MySQL
     private static final String PASSWORD = "root";      // Remplacez par votre mot de passe MySQL
