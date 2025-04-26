@@ -10,10 +10,10 @@ public class Produit {
     private int idMarque;
     private String nomMarque;
 
-    // ✅ Constructeur vide nécessaire pour les setters (ex: dans AdminFrame)
+    // Constructeur vide necessaire pour les setters
     public Produit() {}
 
-    // ✅ Constructeur complet
+    //  Constructeur complet
     public Produit(int idProduit, String nom, double prixUnitaire, int stock, int qteLotPromo, double prixLotPromo, int idMarque) {
         this.idProduit = idProduit;
         this.nom = nom;
@@ -24,7 +24,7 @@ public class Produit {
         this.idMarque = idMarque;
     }
 
-    // ✅ Getters
+    // Getters
     public int getIdProduit() { return idProduit; }
     public String getNom() { return nom; }
     public double getPrixUnitaire() { return prixUnitaire; }
@@ -35,7 +35,7 @@ public class Produit {
     public String getNomMarque() { return nomMarque; }
 
 
-    // ✅ Setters
+    //  Setters
     public void setIdProduit(int idProduit) { this.idProduit = idProduit; }
     public void setNom(String nom) { this.nom = nom; }
     public void setPrixUnitaire(double prixUnitaire) { this.prixUnitaire = prixUnitaire; }
