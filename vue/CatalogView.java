@@ -49,11 +49,11 @@ public class CatalogView extends JFrame {
         welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         add(welcomeLabel, BorderLayout.NORTH);
 
-        // 🔍 TOP PANEL avec recherche
+        // Top Panel avec recherche
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
-        // Première ligne
+        // Premiere ligne
         JPanel ligne1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         JButton commandesBtn = new JButton("Mes commandes");
         commandesBtn.addActionListener(e -> new CommandesView().setVisible(true));
@@ -64,7 +64,7 @@ public class CatalogView extends JFrame {
         searchField = new JTextField(15);
         brandComboBox = new JComboBox<>();
         brandComboBox.addItem("Toutes les marques");
-        brandComboBox.addActionListener(e -> searchArticles()); // 🔁 filtre direct
+        brandComboBox.addActionListener(e -> searchArticles()); //filtre direct
 
         JButton searchButton = new JButton("Rechercher");
         searchButton.addActionListener(e -> searchArticles());
@@ -101,7 +101,7 @@ public class CatalogView extends JFrame {
         JScrollPane scrollPane = new JScrollPane(articlesTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // ✅ Panel bas
+        // Panel bas
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
         statusLabel = new JLabel(" ", JLabel.CENTER);
