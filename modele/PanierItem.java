@@ -1,5 +1,5 @@
 package modele;
-////// panier item
+/////////// panier item
 public class PanierItem {
     private Produit produit;
     private int quantite;
