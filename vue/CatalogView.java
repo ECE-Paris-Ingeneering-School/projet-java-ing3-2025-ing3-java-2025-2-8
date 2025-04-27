@@ -11,6 +11,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * Fichier : CatalogView.java
+ *
+ * Interface principale du catalogue (Swing/JTable) du projet Java ING3 2025 Shopping.
+ *
+ * Sources :
+ * - Cours 7 Java – Swing, JTable, Layouts, gestion événements (JP Segado, PDF et Boostcamp)
+ * - Projet Java 2025 Shopping, consignes et schéma MVC/DAO (Boostcamp)
+ * - OpenClassrooms – Pattern MVC Java & interface graphique :
+ *   https://openclassrooms.com/fr/courses/7160741-ecrivez-du-code-python-maintenable/7188702-structurez-une-application-avec-le-pattern-d-architecture-mvc
+ * - GeeksforGeeks – JTable in Java Swing :
+ *   https://www.geeksforgeeks.org/java-swing-jtable/
+ * - Documentation Java officielle (Swing/AWT) :
+ *   https://docs.oracle.com/javase/8/docs/api/javax/swing/package-summary.html
+ *
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
+
+
 /**
  * CatalogView, on affiche le catalogue connecte a la BDD
  * la classse represente l'interface principale
