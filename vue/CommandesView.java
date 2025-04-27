@@ -1,3 +1,16 @@
+/**
+ * Fichier : CommandesView.java
+ * Fenêtre Swing d’affichage des commandes pour le projet Java ING3 2025 Shopping.
+ * Sources :
+ * - Cours 7 Java – Tableaux Swing, layouts et événements (JP Segado, Boostcamp/PDF)
+ * - OpenClassrooms – JTable et gestion d’une liste en interface graphique Java :
+ *   https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/26892-creez-une-interface-graphique-avec-swing
+ * - Java Doc officielle (Swing) :
+ *   https://docs.oracle.com/javase/8/docs/api/javax/swing/JTable.html
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
 package vue;
 
 import controleur.LoginControleur;
@@ -9,6 +22,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+
+
+
 
 public class CommandesView extends JFrame {
 

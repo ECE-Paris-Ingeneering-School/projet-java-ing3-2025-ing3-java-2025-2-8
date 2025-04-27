@@ -1,13 +1,3 @@
-package vue;
-
-import dao.ProduitDao;
-import modele.Produit;
-import modele.Utilisateur;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.util.List;
 /**
  * Fichier : AdminFrame.java
  * - Support de cours Boostcamp/POO Java :
@@ -22,6 +12,17 @@ import java.util.List;
  * @author Adam Zeidan et Florent Meunier
  * @date Avril 2025
  */
+
+package vue;
+
+import dao.ProduitDao;
+import modele.Produit;
+import modele.Utilisateur;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.List;
 
 public class AdminFrame extends JFrame {
     private JTable table;

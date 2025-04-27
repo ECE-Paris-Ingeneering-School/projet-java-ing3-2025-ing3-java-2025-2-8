@@ -1,3 +1,15 @@
+/**
+ * Fichier : CartView.java
+ * Interface du panier (Swing) pour le projet Java ING3 2025 Shopping.
+ * Sources :
+ * - Projet Java 2025 Shopping, consignes et pattern MVC (cours Boostcamp)
+ * - Cours 7 Java : Swing, JTable, Layouts, Events (JP Segado, PDF cours 7)
+ * - Docs Java officielle : Swing/AWT
+ *
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
 package vue;
 
 import dao.CommandeDAO;
@@ -13,19 +25,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Fichier : CartView.java
- *
- * Interface du panier (Swing) pour le projet Java ING3 2025 Shopping.
- *
- * Sources :
- * - Projet Java 2025 Shopping, consignes et pattern MVC (cours Boostcamp)
- * - Cours 7 Java : Swing, JTable, Layouts, Events (JP Segado, PDF cours 7)
- * - Docs Java officielle : Swing/AWT
- *
- * @author Adam Zeidan et Florent Meunier
- * @date Avril 2025
- */
+
 
 
 /**

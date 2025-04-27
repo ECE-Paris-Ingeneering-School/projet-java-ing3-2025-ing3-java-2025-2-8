@@ -1,3 +1,22 @@
+/**
+ * Fichier : PaymentView.java
+ *
+ * Interface Swing de confirmation et paiement d'une commande (Projet Java ING3 2025 Shopping).
+ *
+ * Sources :
+ * - Cours 7 Java – Création de fenêtres, boutons, TextArea, timers Swing (JP Segado, Boostcamp/PDF)
+ * - OpenClassrooms – Fenêtres, dialogues, timers et interfaces en Java Swing :
+ *   https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/26892-creez-une-interface-graphique-avec-swing
+ *   https://www.geeksforgeeks.org/java-swing-jbutton/
+ *   https://www.geeksforgeeks.org/java-swing-jtextarea/
+ * - JavaDoc officielle (Swing) :
+ *   https://docs.oracle.com/javase/8/docs/api/javax/swing/
+ *
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
+
 package vue;
 //importation des librairies pour le View
 import javax.swing.*;

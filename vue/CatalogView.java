@@ -1,22 +1,6 @@
-package vue;
-
-import dao.ProduitDao;
-import modele.Produit;
-import modele.Utilisateur;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-
 /**
  * Fichier : CatalogView.java
- *
  * Interface principale du catalogue (Swing/JTable) du projet Java ING3 2025 Shopping.
- *
  * Sources :
  * - Cours 7 Java – Swing, JTable, Layouts, gestion événements (JP Segado, PDF et Boostcamp)
  * - Projet Java 2025 Shopping, consignes et schéma MVC/DAO (Boostcamp)
@@ -31,6 +15,18 @@ import java.util.Set;
  * @date Avril 2025
  */
 
+package vue;
+
+import dao.ProduitDao;
+import modele.Produit;
+import modele.Utilisateur;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**

@@ -1,3 +1,19 @@
+/**
+ * Fichier : LoginView.java
+ * Interface graphique Swing pour la connexion et l’inscription (Projet Java ING3 2025 Shopping).
+ * Sources :
+ * - Cours 7 Java – Interfaces Swing, formulaires, GridBagLayout, dialogs (JP Segado, Boostcamp/PDF)
+ * - OpenClassrooms – Création d’interfaces graphiques Java :
+ *   https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/26892-creez-une-interface-graphique-avec-swing
+ * - GeeksforGeeks – JPasswordField in Java Swing :
+ *   https://www.geeksforgeeks.org/java-swing-jpasswordfield/
+ * - JavaDoc officielle (Swing) :
+ *   https://docs.oracle.com/javase/8/docs/api/javax/swing/
+ *
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
 package vue;
 
 import dao.UtilisateurDAO;

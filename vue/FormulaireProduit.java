@@ -1,3 +1,17 @@
+/**
+ * Fichier : FormulaireProduit.java
+ * Fenêtre Swing pour ajouter/modifier un produit (dialog) dans le projet Java ING3 2025 Shopping.
+ * Sources :
+ * - Cours 7 Java – Dialogues, champs de texte, boutons et gestion des événements (JP Segado, Boostcamp/PDF)
+ * - OpenClassrooms – Dialogs, GridLayout, formulaires en Java Swing :
+ *   https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/44264-les-boites-de-dialogue
+ * - Java Doc officielle (Swing) :
+ *   https://docs.oracle.com/javase/8/docs/api/javax/swing/JDialog.html
+ *
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
 package vue;
 
 import dao.ProduitDao;
@@ -6,6 +20,8 @@ import modele.Produit;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
+
 
 public class FormulaireProduit extends JDialog {
     private JTextField nomField, prixField, stockField, qteLotField, prixLotField, marqueField;
