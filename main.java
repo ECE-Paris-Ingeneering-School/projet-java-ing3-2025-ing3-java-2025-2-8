@@ -1,23 +1,25 @@
-
-/////// MAIN
-// Imports
+// Imports:
 import controleur.LoginControleur;
 import vue.LoginView;
-
 import javax.swing.*;
 
-public class main {
-    public static void main(String[] args) {
+public class main
+{
+    public static void main(String[] args)
+    {
 
-        // Execution dans Swing
-        SwingUtilities.invokeLater(() -> {
-            try {
+        //Interface Graphique
+        SwingUtilities.invokeLater(() ->
+        {
+            try
+            {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
 
-            // vue de connexion :
+            // Fenetre connnexion
             LoginView loginView = new LoginView();
             new LoginControleur(loginView);
             loginView.setVisible(true);
