@@ -7,10 +7,30 @@ import util.Databaseconnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * ProduitDao est la classe responsable de toutes les opérations
+ * liées aux produits et aux marques dans la base de données.
+ *
+ * Cette classe permet de :
+ * - Récupérer tous les produits avec leur marque,
+ * - Ajouter un nouveau produit,
+ * - Modifier un produit existant,
+ * - Supprimer un produit,
+ * - Gérer les marques associées aux produits.
+ *
+ * Utilise JDBC avec gestion sécurisée des ressources (try-with-resources).
+ * @author jeanhaj
+ */
+
 
 public class ProduitDao {
+    /**
+     * Récupère tous les produits depuis la base de données,
+     * en incluant le nom de la marque associée.
+     *
+     * @return Liste de produits avec leur marque.
+     */
 
-    // Récupère tous les produits avec leur marque
     public List<Produit> getAllProduitsAvecMarque() {
         List<Produit> produits = new ArrayList<>();
         String sql = "SELECT p.*, m.nom AS nomMarque FROM Produit p JOIN Marque m ON p.idMarque = m.idMarque";
@@ -42,6 +62,14 @@ public class ProduitDao {
 
     // Ajoute un produit (et la marque si elle est nouvelle)
     public boolean ajouterProduit(Produit p) {
+        /**
+         * Ajoute un nouveau produit à la base de données.
+         * Si la marque n'existe pas, elle est automatiquement créée.
+         *
+         * @param p L'objet Produit à ajouter.
+         * @return true si l'insertion a réussi, false sinon.
+         */
+
         try (Connection conn = Databaseconnection.getConnection()) {
             int idMarque = getOrCreateMarque(p.getNomMarque(), conn);
             p.setIdMarque(idMarque);
@@ -65,6 +93,13 @@ public class ProduitDao {
     }
 
     public boolean supprimerProduit(int idProduit) {
+        /**
+         * Supprime un produit de la base de données selon son identifiant.
+         *
+         * @param idProduit L'identifiant du produit à supprimer.
+         * @return true si la suppression a réussi, false sinon.
+         */
+
         String sql = "DELETE FROM Produit WHERE idProduit = ?";
         System.out.println("Suppression du produit ID: " + idProduit);
         try (Connection conn = Databaseconnection.getConnection();
@@ -85,6 +120,14 @@ public class ProduitDao {
 
 
     public boolean modifierProduit(Produit p) {
+        /**
+         * Modifie les informations d'un produit existant dans la base de données.
+         * Si la marque est nouvelle, elle est créée automatiquement.
+         *
+         * @param p L'objet Produit contenant les nouvelles données.
+         * @return true si la mise à jour a réussi, false sinon.
+         */
+
         try (Connection conn = Databaseconnection.getConnection()) {
             int idMarque = getOrCreateMarque(p.getNomMarque(), conn);
             p.setIdMarque(idMarque);
@@ -109,6 +152,12 @@ public class ProduitDao {
     }
 
     public List<Marque> getAllMarques() {
+        /**
+         * Récupère toutes les marques disponibles dans la base de données.
+         *
+         * @return Liste de toutes les marques.
+         */
+
         List<Marque> marques = new ArrayList<>();
         String sql = "SELECT * FROM Marque";
         try (Connection conn = Databaseconnection.getConnection();
@@ -124,6 +173,15 @@ public class ProduitDao {
     }
 
     private int getOrCreateMarque(String nomMarque, Connection conn) throws SQLException {
+        /**
+         * Récupère l'identifiant d'une marque existante par son nom,
+         * ou crée une nouvelle marque si elle n'existe pas encore.
+         *
+         * @param nomMarque Le nom de la marque à rechercher ou créer.
+         * @param conn La connexion active à la base de données.
+         * @return L'identifiant de la marque existante ou nouvellement créée.
+         * @throws SQLException En cas d'erreur lors de la recherche ou de l'insertion.
+         */
         String selectSql = "SELECT idMarque FROM Marque WHERE nom = ?";
         try (PreparedStatement stmt = conn.prepareStatement(selectSql)) {
             stmt.setString(1, nomMarque);
