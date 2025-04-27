@@ -1,4 +1,4 @@
-// model PanierItem
+//  model PanierItem
 package modele;
 public class PanierItem
 {
@@ -27,7 +27,7 @@ public class PanierItem
         this.quantite = quantite;
     }
 
-    // Calcul  Sous Total
+    // Calcul Sous Total
     public double getSousTotal()
     {
         if (produit.getQteLotPromo() > 0 && produit.getPrixLotPromo() > 0)

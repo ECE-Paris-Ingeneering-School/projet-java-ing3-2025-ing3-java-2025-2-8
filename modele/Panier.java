@@ -1,4 +1,4 @@
-// model panier:
+//  model panier:
 package modele;
 import java.util.ArrayList;
 import java.util.List;

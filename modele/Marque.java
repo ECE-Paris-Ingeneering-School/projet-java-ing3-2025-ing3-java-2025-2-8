@@ -8,7 +8,7 @@ public class Marque
     private int idMarque;
     private String nom;
 
-    // Constructeur
+    //  Constructeur
     public Marque(int idMarque, String nom)
     {
         this.idMarque = idMarque;

@@ -1,4 +1,4 @@
-// Imports:
+// Imports
 import controleur.LoginControleur;
 import vue.LoginView;
 import javax.swing.*;
