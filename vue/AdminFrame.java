@@ -8,6 +8,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+/**
+ * Fichier : AdminFrame.java
+ * - Support de cours Boostcamp/POO Java :
+ *   > "Projet Java 2025 Shopping", JP Segado – Partie architecture MVC, DAO, et exigences sur l’interface graphique.
+ *     Référence: https://boostcamp.omneseducation.com/course/view.php?id=377194&section=2
+ * - Support de cours
+ *   > "Cours 7 Java – Interface graphique Swing, AWT, Listeners", JP Segado – Utilisation des composants Swing (JFrame, JPanel, JTable, JButton, JScrollPane, etc.),
+ *     gestion des layouts (BorderLayout), des événements (addActionListener), et exemples de code pour interfaces graphiques.
+ *     Référence: PDF «Cours7-Java-ING3 S6 Interface graphique Swing, AWT, Listeners » / Boostcamp
+ *   > Java Swing : https://docs.oracle.com/javase/8/docs/api/javax/swing/package-summary.html
+ *   > Java AWT : https://docs.oracle.com/javase/8/docs/api/java/awt/package-summary.html
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
 
 public class AdminFrame extends JFrame {
     private JTable table;
