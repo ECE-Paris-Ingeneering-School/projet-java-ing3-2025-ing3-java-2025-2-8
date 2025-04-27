@@ -7,10 +7,30 @@ import modele.Produit;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+/**
+ * LigneCommandeDAO est la classe responsable des opérations sur les lignes de commande
+ * dans la base de données.
+ *
+ * Elle permet :
+ * - d'ajouter une nouvelle ligne de commande,
+ * - de récupérer toutes les lignes d'une commande spécifique,
+ * - d'identifier le produit le plus commandé.
+ *
+ * Utilise JDBC avec gestion sécurisée des connexions (try-with-resources).
+ * @author jeanhaj
+ */
+
 
 public class LigneCommandeDAO {
 
     public boolean ajouterLigneCommande(LigneCommande ligne) {
+        /**
+         * Ajoute une nouvelle ligne de commande dans la base de données.
+         *
+         * @param ligne L'objet LigneCommande contenant les détails de la ligne (produit, quantité, prix, sous-total).
+         * @return true si l'insertion a réussi, false sinon.
+         */
+
         String sql = "INSERT INTO LigneCommande(idCommande, idProduit, quantite, prixUnitaire, sousTotal) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = Databaseconnection.getConnection();
@@ -30,6 +50,13 @@ public class LigneCommandeDAO {
         }
     }
     public List<LigneCommande> getLignesParCommande(int idCommande) {
+        /**
+         * Récupère toutes les lignes de commande associées à une commande donnée.
+         *
+         * @param idCommande L'identifiant de la commande.
+         * @return Une liste de LigneCommande correspondant à cette commande.
+         */
+
         List<LigneCommande> lignes = new ArrayList<>();
         String sql = """
         SELECT lc.*, p.nom AS nomProduit
@@ -65,6 +92,12 @@ public class LigneCommandeDAO {
     }
 
     public Produit getProduitLePlusCommandé() {
+        /**
+         * Récupère le produit qui a été commandé en plus grande quantité.
+         *
+         * @return Un objet Produit représentant le produit le plus vendu, ou null en cas d'erreur.
+         */
+
         String sql = """
         SELECT lc.idProduit, SUM(lc.quantite) AS totalQte, p.nom
         FROM LigneCommande lc
