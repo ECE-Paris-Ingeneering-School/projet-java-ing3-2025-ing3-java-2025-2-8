@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Fenêtre principale pour les clients après connexion
+ * Fenetre principale pour les clients après connexion
  */
 public class ClientFrame extends JFrame {
 
@@ -26,18 +26,18 @@ public class ClientFrame extends JFrame {
     private void initUI() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Barre supérieure
+        // Barre superieure
         JLabel welcomeLabel = new JLabel("Bienvenue, " + utilisateur.getNom() + " 👋", JLabel.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         mainPanel.add(welcomeLabel, BorderLayout.NORTH);
 
-        // Zone centrale (catalogue produit - à ajouter plus tard)
+        // Zone centrale (catalogue produit)
         JTextArea placeholder = new JTextArea("Catalogue de produits ici...");
         placeholder.setEditable(false);
         placeholder.setFont(new Font("Arial", Font.ITALIC, 16));
         mainPanel.add(placeholder, BorderLayout.CENTER);
 
-        // Barre inférieure
+        // barre inferieure
         JPanel bottomPanel = new JPanel();
         JButton viewCartButton = new JButton("Voir le panier");
         JButton logoutButton = new JButton("Déconnexion");

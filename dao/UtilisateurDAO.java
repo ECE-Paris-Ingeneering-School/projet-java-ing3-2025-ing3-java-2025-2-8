@@ -6,11 +6,31 @@ import modele.Utilisateur;
 import util.Databaseconnection;
 
 import java.sql.*;
+/**
+ * UtilisateurDAO est la classe responsable de l'accès aux données
+ * liées aux utilisateurs dans la base de données.
+ *
+ * Cette classe permet :
+ * - d'authentifier un utilisateur,
+ * - d'ajouter un nouvel utilisateur lors de l'inscription.
+ *
+ * Utilise JDBC avec des requêtes préparées (PreparedStatement) pour plus de sécurité.
+ * @author jeanhaj
+ */
+
 
 public class UtilisateurDAO {
 
     // Vérifie les identifiants et retourne l'utilisateur s’il existe
     public Utilisateur authenticate(String email, String password) {
+        /**
+         * Authentifie un utilisateur en vérifiant son email et son mot de passe.
+         *
+         * @param email L'adresse email de l'utilisateur.
+         * @param password Le mot de passe de l'utilisateur.
+         * @return L'objet Utilisateur correspondant si l'authentification réussit, sinon null.
+         */
+
         String sql = "SELECT * FROM Utilisateur WHERE email = ? AND mot_de_passe = ?";
         try (Connection conn = Databaseconnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -37,6 +57,13 @@ public class UtilisateurDAO {
 
     // Inscription d’un nouveau client
     public boolean ajouterUtilisateur(Utilisateur user) {
+        /**
+         * Ajoute un nouvel utilisateur (client) dans la base de données.
+         *
+         * @param user L'objet Utilisateur à ajouter.
+         * @return true si l'ajout a réussi, false sinon.
+         */
+
         String sql = "INSERT INTO Utilisateur(nom, email, mot_de_passe, type) VALUES (?, ?, ?, ?)";
         try (Connection conn = Databaseconnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

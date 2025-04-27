@@ -153,7 +153,7 @@ public class LoginView extends JFrame {
         gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
         formPanel.add(confirmPasswordField, gbc);
 
-        // ===== BOUTONS =====
+        // Boutons
         JPanel buttonPanel = new JPanel();
         JButton registerButton = new JButton("S'inscrire");
         JButton cancelButton = new JButton("Annuler");
@@ -161,12 +161,12 @@ public class LoginView extends JFrame {
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(cancelButton);
 
-        // ===== STATUS =====
+        // Status
         JLabel registerStatusLabel = new JLabel(" ", JLabel.CENTER);
         registerStatusLabel.setForeground(Color.RED);
         registerStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // ===== AJOUT AUX PANNEAUX =====
+        // Ajout aux panneaux
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
         mainPanel.add(formPanel);
@@ -178,7 +178,7 @@ public class LoginView extends JFrame {
         registerDialog.add(mainPanel);
         registerDialog.setResizable(false);
 
-        // ===== ACTIONS =====
+        // Actions
         registerButton.addActionListener(e -> {
             String name = nameField.getText().trim();
             String email = emailField.getText().trim();
@@ -206,7 +206,7 @@ public class LoginView extends JFrame {
                 return;
             }
 
-            // Création de l'utilisateur
+            // Creation de l'utilisateur
             Utilisateur newUser = new Utilisateur(0, name, email, password, "client");
             UtilisateurDAO dao = new UtilisateurDAO();
             boolean success = dao.ajouterUtilisateur(newUser);
@@ -217,7 +217,7 @@ public class LoginView extends JFrame {
                         "Succès", JOptionPane.INFORMATION_MESSAGE);
                 registerDialog.dispose();
 
-                // Pré-remplir les champs de connexion
+                // Pre remplir les champs de connexion
                 LoginView.this.emailField.setText(email);
                 LoginView.this.passwordField.setText("");
                 LoginView.this.userTypeComboBox.setSelectedItem("Client");
@@ -233,7 +233,7 @@ public class LoginView extends JFrame {
     }
 
 
-    // ==== Méthodes utilisées par le contrôleur ====
+    // Methodes utilise par le controleur
 
     public void setLoginAction(ActionListener action) {
         loginButton.addActionListener(action);
@@ -255,7 +255,7 @@ public class LoginView extends JFrame {
         statusLabel.setText(message);
     }
 
-    // ==== Lancement de l'application ====
+    // Lancement de l appli
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
