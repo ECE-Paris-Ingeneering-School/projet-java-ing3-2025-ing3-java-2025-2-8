@@ -20,6 +20,8 @@ public class CatalogView extends JFrame {
     private JButton addToCartButton;
     private JButton viewCartButton;
     private JButton checkoutButton;
+    private JButton returnButton;
+
 
     public CatalogView(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
@@ -46,8 +48,12 @@ public class CatalogView extends JFrame {
         JPanel ligne1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         viewCartButton = new JButton("Voir le Panier");
         checkoutButton = new JButton("Payer maintenant");
+        returnButton = new JButton("Retour");
+
+
         ligne1.add(viewCartButton);
         ligne1.add(checkoutButton);
+        ligne1.add(returnButton);
 
         JPanel ligne2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         searchField = new JTextField(15);
@@ -144,6 +150,10 @@ public class CatalogView extends JFrame {
     public int getSelectedRow() {
         return articlesTable.getSelectedRow();
     }
+    public JButton getReturnButton() {
+        return returnButton;
+    }
+
 
     public Object getValueAt(int row, int column) {
         return tableModel.getValueAt(row, column);
