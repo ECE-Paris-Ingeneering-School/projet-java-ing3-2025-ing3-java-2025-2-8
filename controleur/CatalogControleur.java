@@ -34,6 +34,8 @@ public class CatalogControleur {
 
         vue.getSearchButton().addActionListener(e -> searchArticles());
         vue.getRefreshButton().addActionListener(e -> loadArticles());
+        vue.getReturnButton().addActionListener(e -> retourMenu());
+
         vue.getAddToCartButton().addActionListener(e -> ajouterProduitSelectionneAuPanier());
         vue.getViewCartButton().addActionListener(e -> cartView.setVisible(true));
         vue.getCheckoutButton().addActionListener(e -> cartView.setVisible(true));
@@ -66,6 +68,13 @@ public class CatalogControleur {
 
         vue.updateStatus("Catalogue chargé : " + produits.size() + " produit(s)");
     }
+    private void retourMenu() {
+        vue.dispose(); // Fermer la fenêtre du catalogue
+        ClientFrame clientFrame = new ClientFrame(utilisateur);
+        new ClientControleur(clientFrame, utilisateur);
+        clientFrame.setVisible(true);
+    }
+
 
     private void searchArticles() {
         String texte = vue.getSearchText().trim().toLowerCase();
