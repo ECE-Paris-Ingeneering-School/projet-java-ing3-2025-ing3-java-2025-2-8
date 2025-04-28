@@ -1,36 +1,22 @@
-/**
- * Fichier : FormulaireProduit.java
- * Fenêtre Swing pour ajouter/modifier un produit (dialog) dans le projet Java ING3 2025 Shopping.
- * Sources :
- * - Cours 7 Java – Dialogues, champs de texte, boutons et gestion des événements (JP Segado, Boostcamp/PDF)
- * - OpenClassrooms – Dialogs, GridLayout, formulaires en Java Swing :
- *   https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/44264-les-boites-de-dialogue
- * - Java Doc officielle (Swing) :
- *   https://docs.oracle.com/javase/8/docs/api/javax/swing/JDialog.html
- *
- * @author Adam Zeidan et Florent Meunier
- * @date Avril 2025
- */
-
 package vue;
 
-import dao.ProduitDao;
+import controleur.AdminControleur;
 import modele.Produit;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-
-
 public class FormulaireProduit extends JDialog {
     private JTextField nomField, prixField, stockField, qteLotField, prixLotField, marqueField;
     private Produit produit;
     private AdminFrame adminFrame;
+    private AdminControleur controller;
 
-    public FormulaireProduit(AdminFrame adminFrame, Produit produit) {
+    public FormulaireProduit(AdminFrame adminFrame, AdminControleur controller, Produit produit) {
         super(adminFrame, "Formulaire Produit", true);
         this.adminFrame = adminFrame;
+        this.controller = controller;
         this.produit = produit;
 
         setSize(400, 400);
@@ -85,12 +71,11 @@ public class FormulaireProduit extends JDialog {
             String marque = marqueField.getText();
 
             boolean success;
-            ProduitDao dao = new ProduitDao();
 
             if (produit == null) {
-                produit = new Produit(0, nom, prix, stock, qteLot, prixLot, 0);
-                produit.setNomMarque(marque);
-                success = dao.ajouterProduit(produit);
+                Produit nouveau = new Produit(0, nom, prix, stock, qteLot, prixLot, 0);
+                nouveau.setNomMarque(marque);
+                success = controller.ajouterProduit(nouveau);
             } else {
                 produit.setNom(nom);
                 produit.setPrixUnitaire(prix);
@@ -98,11 +83,11 @@ public class FormulaireProduit extends JDialog {
                 produit.setQteLotPromo(qteLot);
                 produit.setPrixLotPromo(prixLot);
                 produit.setNomMarque(marque);
-                success = dao.modifierProduit(produit);
+                success = controller.modifierProduit(produit);
             }
 
             if (success) {
-                adminFrame.loadProduits();
+                controller.loadProduits();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement en base de données.");
