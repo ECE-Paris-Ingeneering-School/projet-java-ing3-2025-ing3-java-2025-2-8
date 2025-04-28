@@ -1,13 +1,13 @@
 package vue;
-//importation des librairies pour le View
+
+import modele.PanierItem;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 
 public class PaymentView extends JFrame {
     private JTextArea summaryTextArea;
@@ -15,21 +15,17 @@ public class PaymentView extends JFrame {
     private JButton cancelButton;
     private JLabel totalLabel;
 
-    private List<OrderItem> orderItems;
+    private List<PanierItem> panierItems;
     private double totalAmount;
-    private CartView cartView;
 
-    public PaymentView(CartView cartView, List<OrderItem> items, double total) {
-        this.cartView = cartView;
-        this.orderItems = items;
-        this.totalAmount = total;
+    public PaymentView(List<PanierItem> panierItems, double totalAmount) {
+        this.panierItems = panierItems;
+        this.totalAmount = totalAmount;
 
         initializeFrame();
         initializeComponents();
         populateSummary();
     }
-
-    //initialization du Frame
 
     private void initializeFrame() {
         setTitle("Paiement - Confirmation de commande");
@@ -39,8 +35,6 @@ public class PaymentView extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
     }
-
-    //initialization du panel
 
     private void initializeComponents() {
         JPanel headerPanel = createHeaderPanel();
@@ -95,15 +89,11 @@ public class PaymentView extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
-        //les buttons pour payer
-
         payButton = new JButton("Payer maintenant");
         payButton.setPreferredSize(new Dimension(150, 40));
-        payButton.addActionListener(e -> processPayment());
 
         cancelButton = new JButton("Annuler");
         cancelButton.setPreferredSize(new Dimension(100, 40));
-        cancelButton.addActionListener(e -> cancelPayment());
 
         buttonPanel.add(payButton);
         buttonPanel.add(cancelButton);
@@ -120,95 +110,55 @@ public class PaymentView extends JFrame {
         summary.append(String.format(format, "Article", "Qte", "PU", "Sous-total"));
         summary.append("-----------------------------------------------------------\n");
 
-        for (OrderItem item : orderItems) {
+        for (PanierItem item : panierItems) {
             summary.append(String.format(format,
-                    item.getName(),
-                    item.getQuantity(),
-                    String.format("%.2f", item.getUnitPrice()),
-                    String.format("%.2f", item.getSubtotal())
+                    item.getProduit().getNom(),
+                    item.getQuantite(),
+                    String.format("%.2f", item.getProduit().getPrixUnitaire()),
+                    String.format("%.2f", item.getSousTotal())
             ));
         }
 
         summaryTextArea.setText(summary.toString());
     }
-    //payment processeur
-    private void processPayment() {
-        if (orderItems.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Erreur : Panier vide.",
-                    "Erreur de paiement",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        //curseur
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        payButton.setEnabled(false);
-        cancelButton.setEnabled(false);
-        //timer
 
-        Timer timer = new Timer(1500, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setCursor(Cursor.getDefaultCursor());
-
-                JOptionPane.showMessageDialog(PaymentView.this,
-                        "Paiement validé ! Merci pour votre achat.",
-                        "Succès",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                closeAndReturnToCatalog();
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
+    // --- Getters pour le contrôleur ---
+    public JButton getPayButton() {
+        return payButton;
     }
-    //annulation du paiement
-    private void cancelPayment() {
+
+    public JButton getCancelButton() {
+        return cancelButton;
+    }
+
+    public List<PanierItem> getPanierItems() {
+        return panierItems;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    // Méthodes accessibles par le contrôleur
+    public void afficherMessagePaiementSucces() {
+        JOptionPane.showMessageDialog(this,
+                "Paiement validé ! Merci pour votre achat.",
+                "Succès",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void afficherMessageErreurPanierVide() {
+        JOptionPane.showMessageDialog(this,
+                "Erreur : Panier vide.",
+                "Erreur de paiement",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
+    public boolean confirmerAnnulation() {
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Annuler le paiement ?",
                 "Confirmation",
                 JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            if (cartView != null) {
-                setVisible(false);
-                cartView.setVisible(true);
-                dispose();
-            } else {
-                dispose();
-            }
-        }
-    }
-
-    private void closeAndReturnToCatalog() {
-        dispose();
-        if (cartView != null) {
-            cartView.clearCart();
-            if (cartView.getCatalogView() != null) {
-                cartView.getCatalogView().setVisible(true);
-            }
-        }
-    }
-    //order item
-    public static class OrderItem {
-        private int id;
-        private String name;
-        private double unitPrice;
-        private int quantity;
-        private double subtotal;
-
-        public OrderItem(int id, String name, double unitPrice, int quantity, double subtotal) {
-            this.id = id;
-            this.name = name;
-            this.unitPrice = unitPrice;
-            this.quantity = quantity;
-            this.subtotal = subtotal;
-        }
-
-        public int getId() { return id; }
-        public String getName() { return name; }
-        public double getUnitPrice() { return unitPrice; }
-        public int getQuantity() { return quantity; }
-        public double getSubtotal() { return subtotal; }
+        return confirm == JOptionPane.YES_OPTION;
     }
 }

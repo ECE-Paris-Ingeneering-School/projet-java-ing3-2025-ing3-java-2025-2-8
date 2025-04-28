@@ -1,3 +1,22 @@
+/**
+ * Fichier : StatsPanel.java
+ *
+ * Panneau d'affichage des statistiques (Swing) pour le projet Java ING3 2025 Shopping.
+ *
+ * Sources :
+ * - Cours 7 Java – Composants Swing, JLabel, JPanel, BoxLayout, accès DAO (JP Segado, Boostcamp/PDF)
+ * - OpenClassrooms – Création d’interfaces Swing et panels :
+ *   https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/26892-creez-une-interface-graphique-avec-swing
+ * - GeeksforGeeks – JPanel in Java Swing :
+ *   https://www.geeksforgeeks.org/jpanel-java-swing/
+ * - JavaDoc officielle (Swing) :
+ *   https://docs.oracle.com/javase/8/docs/api/javax/swing/JPanel.html
+ *
+ * @author Adam Zeidan et Florent Meunier
+ * @date Avril 2025
+ */
+
+
 package vue;
 
 import dao.CommandeDAO;

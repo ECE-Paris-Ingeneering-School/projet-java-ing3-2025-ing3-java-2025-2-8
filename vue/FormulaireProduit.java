@@ -1,6 +1,6 @@
 package vue;
 
-import dao.ProduitDao;
+import controleur.AdminControleur;
 import modele.Produit;
 
 import javax.swing.*;
@@ -11,10 +11,12 @@ public class FormulaireProduit extends JDialog {
     private JTextField nomField, prixField, stockField, qteLotField, prixLotField, marqueField;
     private Produit produit;
     private AdminFrame adminFrame;
+    private AdminControleur controller;
 
-    public FormulaireProduit(AdminFrame adminFrame, Produit produit) {
+    public FormulaireProduit(AdminFrame adminFrame, AdminControleur controller, Produit produit) {
         super(adminFrame, "Formulaire Produit", true);
         this.adminFrame = adminFrame;
+        this.controller = controller;
         this.produit = produit;
 
         setSize(400, 400);
@@ -69,12 +71,11 @@ public class FormulaireProduit extends JDialog {
             String marque = marqueField.getText();
 
             boolean success;
-            ProduitDao dao = new ProduitDao();
 
             if (produit == null) {
-                produit = new Produit(0, nom, prix, stock, qteLot, prixLot, 0);
-                produit.setNomMarque(marque);
-                success = dao.ajouterProduit(produit);
+                Produit nouveau = new Produit(0, nom, prix, stock, qteLot, prixLot, 0);
+                nouveau.setNomMarque(marque);
+                success = controller.ajouterProduit(nouveau);
             } else {
                 produit.setNom(nom);
                 produit.setPrixUnitaire(prix);
@@ -82,11 +83,11 @@ public class FormulaireProduit extends JDialog {
                 produit.setQteLotPromo(qteLot);
                 produit.setPrixLotPromo(prixLot);
                 produit.setNomMarque(marque);
-                success = dao.modifierProduit(produit);
+                success = controller.modifierProduit(produit);
             }
 
             if (success) {
-                adminFrame.loadProduits();
+                controller.loadProduits();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement en base de données.");

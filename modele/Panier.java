@@ -1,20 +1,32 @@
 //  model panier:
 package modele;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe qui represente un panier qui contient plusieurs articles.
+ * Permet d'ajouter, de retirer et de calculer le total des produits ajoute au panier.
+ * @author Chris
+ */
 public class Panier
 {
     private List<PanierItem> items;
 
-    // Constructeur
-    public Panier()
+    /**
+     * Constructeur de la classe Panier.
+     * Initialise un panier vide.
+     */    public Panier()
     {
         this.items = new ArrayList<>();
     }
 
-    // fonction ajoute produit
-    public void ajouterProduit(Produit produit, int quantite)
+    /**
+     * Ajoute un produit au panier.
+     * Si le produit est déjà présent, augmente la quantité.
+     * @param produit Produit à ajouter
+     * @param quantite Quantité à ajouter
+     */    public void ajouterProduit(Produit produit, int quantite)
     {
         for (PanierItem item : items)
         {
@@ -27,19 +39,27 @@ public class Panier
         items.add(new PanierItem(produit, quantite));
     }
 
-    // fonction supprime produit
-    public void supprimerProduit(int idProduit)
+    /**
+     * Supprime un produit du panier selon son id.
+     * @param idProduit id du produit à supprimer
+     */    public void supprimerProduit(int idProduit)
     {
         items.removeIf(item -> item.getProduit().getIdProduit() == idProduit);
     }
 
+    /**
+     * Retourne la liste des articles presents dans le panier.
+     * @return Liste d'objets PanierItem
+     */
     public List<PanierItem> getItems()
     {
         return items;
     }
 
-    ///  Calcul Totel
-    public double getTotal()
+    /**
+     * Calcule le total du panier en additionnant les sous-totaux des articles.
+     * @return Le total du panier
+     */    public double getTotal()
     {
         double total = 0;
         for (PanierItem item : items)
@@ -49,12 +69,18 @@ public class Panier
         return total;
     }
 
+    /**
+     * Vide tout le panier.
+     */
     public void vider()
     {
         items.clear();
     }
 
-
+    /**
+     * Retourne en texte le contenu du panier.
+     * @return Chaine de caracteres représentant le panier et son total
+     */
     @Override
 
     public String toString()

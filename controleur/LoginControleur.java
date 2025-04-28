@@ -3,8 +3,9 @@ package controleur;
 import dao.UtilisateurDAO;
 import modele.Utilisateur;
 import vue.AdminFrame;
-import vue.ClientFrame;
+import vue.CatalogView;
 import vue.LoginView;
+import vue.ClientFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,6 @@ public class LoginControleur implements ActionListener {
         String email = view.getEmail();
         String password = view.getPassword();
 
-        // Conversion du type sélectionné (comboBox)
         String userTypeInput = view.getUserType();
         String userType = userTypeInput.equalsIgnoreCase("Client") ? "client" : "admin";
 
@@ -38,7 +38,6 @@ public class LoginControleur implements ActionListener {
         Utilisateur utilisateur = dao.authenticate(email, password);
 
         if (utilisateur != null && utilisateur.getType().equalsIgnoreCase(userType)) {
-            // Enregistrer l'utilisateur
             LoginControleur.utilisateurConnecte = utilisateur;
 
             JOptionPane.showMessageDialog(view,
@@ -46,17 +45,22 @@ public class LoginControleur implements ActionListener {
                     "Bienvenue",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            view.dispose(); // Fermer la fenêtre de login
+            view.dispose();
 
-            // Redirection selon le type d'utilisateur
+            // ✅ Correction ici
             if (userType.equals("client")) {
-                new vue.CatalogView(utilisateur).setVisible(true);
+                ClientFrame clientFrame = new ClientFrame(utilisateur);
+                new ClientControleur(clientFrame, utilisateur);
+                clientFrame.setVisible(true);
             } else {
-                new AdminFrame(utilisateur).setVisible(true);
+                AdminFrame adminFrame = new AdminFrame();
+                new AdminControleur(adminFrame);
+                adminFrame.setVisible(true);
             }
 
         } else {
             view.showError("Identifiants ou type incorrect");
         }
     }
+
 }
